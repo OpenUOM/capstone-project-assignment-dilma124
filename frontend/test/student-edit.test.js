@@ -9,7 +9,7 @@ test('Testing edit students', async t => {
     await t.typeText("#student-id", "999999");
     await t.typeText("#student-name", "Pasindu Basnayaka");
     await t.typeText("#student-age", "45");
-    await t.typeText("#student-Hometown", "catholic");
+    await t.typeText("#student-hometown", "catholic");
     await t.click("#student-add");
 
     await t.navigateTo("/student");
@@ -17,7 +17,7 @@ test('Testing edit students', async t => {
 
     await t.typeText("#student-name", "Changed Student Name");
     await t.typeText("#student-age", "99");
-    await t.typeText("#student-Hometown", "Hometown");
+    await t.typeText("#student-hometown", "Hometown");
     await t.click("#student-edit");
 
     await t.navigateTo("/student");
