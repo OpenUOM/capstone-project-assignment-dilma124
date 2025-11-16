@@ -2,7 +2,7 @@ import { Selector } from 'testcafe';
 process.env.NODE_ENV = "test";
 
 fixture`Testing Student Edit Operations`
-    .page`http://localhost:4401/student`;
+    .page`http://localhost:4200/student`;
 
 test('Test 1: Edit student name and verify changes', async t => {
     await t.navigateTo("/addStudent");

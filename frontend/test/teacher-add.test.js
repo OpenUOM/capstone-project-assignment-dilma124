@@ -2,7 +2,7 @@ import {Selector} from 'testcafe';
 process.env.NODE_ENV = "test";
 
 fixture`Testing Teacher Add Operations`
-    .page`http://localhost:4401/`;
+    .page`http://localhost:4200/`;
 
 test('Test 1: Add a single teacher with all required fields', async t => {
     await t.navigateTo("/dbinitialize");

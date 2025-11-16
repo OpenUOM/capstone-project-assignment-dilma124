@@ -2,7 +2,7 @@ import { Selector } from 'testcafe';
 process.env.NODE_ENV = "test";
 
 fixture`Testing Student Search Operations`
-    .page`http://localhost:4401/student`;
+    .page`http://localhost:4200/student`;
 
 test('Test 1: Search for students with substring match', async t => {
     await t.navigateTo("/student");

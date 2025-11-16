@@ -2,7 +2,7 @@ import {Selector} from 'testcafe';
 process.env.NODE_ENV = "test";
 
 fixture`Testing Teacher Search Operations`
-    .page`http://localhost:4401/`;
+    .page`http://localhost:4200/`;
 
 test('Test 1: Search for teachers with substring match', async t => {
     await t.navigateTo("/");

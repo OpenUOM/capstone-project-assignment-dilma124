@@ -2,7 +2,7 @@ import { Selector } from 'testcafe';
 process.env.NODE_ENV = "test";
 
 fixture`Dummy Application Test`
-    .page`http://localhost:4401/`;
+    .page`http://localhost:4200/`;
 
 test('Verify application loads successfully', async t => {
     // Test that the application loads and displays the teacher table

@@ -2,7 +2,7 @@ import {Selector} from 'testcafe';
 process.env.NODE_ENV = "test";
 
 fixture`Testing Teacher Delete Operations`
-    .page`http://localhost:4401/`;
+    .page`http://localhost:4200/`;
 
 test('Test 1: Delete a teacher and verify removal from table', async t => {
     await t.navigateTo("/addTeacher");
