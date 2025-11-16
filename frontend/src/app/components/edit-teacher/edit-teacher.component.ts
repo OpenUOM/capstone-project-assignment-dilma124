@@ -59,7 +59,7 @@ export class EditTeacherComponent implements OnInit {
     };
     this.service.editTeacher(updatedTeacher).subscribe((response)=>{
       console.log('Teacher updated successfully');
-      this.router.navigate(['teacher']);
+      this.router.navigate(['']);
     },(error)=>{
       console.log('ERROR updating teacher - ', error)
       alert('Error updating teacher. Please check the console.');
