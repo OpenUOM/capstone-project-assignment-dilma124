@@ -28,12 +28,27 @@ export class AddNewStudentComponent implements OnInit {
       hometown : value.hometown
     }
 
+    console.log('Sending student data to backend:', student);
     this.service.addStudent(student).subscribe((response)=>{
       console.log('Student added successfully', response);
+      alert('Student added successfully!');
       this.router.navigate(['student']);
     },(error)=>{
-      console.log('ERROR adding student - ', error);
-      alert('Error adding student. Please check the console.');
+      console.error('ERROR adding student - Full error details:', error);
+      console.error('Error status:', error.status);
+      console.error('Error message:', error.message);
+      console.error('Error response:', error.error);
+      
+      let errorMsg = 'Error adding student';
+      if (error.status === 0) {
+        errorMsg = 'Cannot connect to backend server. Please ensure the backend is running on port 3000.';
+      } else if (error.error && error.error.error) {
+        errorMsg = error.error.error;
+      } else if (error.message) {
+        errorMsg = error.message;
+      }
+      
+      alert(errorMsg);
     })
   }
 }

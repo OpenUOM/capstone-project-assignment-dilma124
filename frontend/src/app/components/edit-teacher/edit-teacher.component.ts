@@ -57,12 +57,28 @@ export class EditTeacherComponent implements OnInit {
       name: name,
       age: ageNum
     };
+
+    console.log('Sending updated teacher data to backend:', updatedTeacher);
     this.service.editTeacher(updatedTeacher).subscribe((response)=>{
       console.log('Teacher updated successfully');
+      alert('Teacher updated successfully!');
       this.router.navigate(['']);
     },(error)=>{
-      console.log('ERROR updating teacher - ', error)
-      alert('Error updating teacher. Please check the console.');
+      console.error('ERROR updating teacher - Full error details:', error);
+      console.error('Error status:', error.status);
+      console.error('Error message:', error.message);
+      console.error('Error response:', error.error);
+      
+      let errorMsg = 'Error updating teacher';
+      if (error.status === 0) {
+        errorMsg = 'Cannot connect to backend server. Please ensure the backend is running on port 3000.';
+      } else if (error.error && error.error.error) {
+        errorMsg = error.error.error;
+      } else if (error.message) {
+        errorMsg = error.message;
+      }
+      
+      alert(errorMsg);
     })
   }
 }

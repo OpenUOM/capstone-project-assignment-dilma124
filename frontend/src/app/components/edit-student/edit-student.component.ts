@@ -42,12 +42,28 @@ export class EditStudentComponent implements OnInit {
       age: values.age || this.studentData.age,
       hometown: values.hometown || this.studentData.hometown
     };
+
+    console.log('Sending updated student data to backend:', updatedStudent);
     this.service.editStudent(updatedStudent).subscribe((response)=>{
       console.log('Student updated successfully');
+      alert('Student updated successfully!');
       this.router.navigate(['student']);
     },(error)=>{
-      console.log('ERROR updating student - ', error);
-      alert('Error updating student');
+      console.error('ERROR updating student - Full error details:', error);
+      console.error('Error status:', error.status);
+      console.error('Error message:', error.message);
+      console.error('Error response:', error.error);
+      
+      let errorMsg = 'Error updating student';
+      if (error.status === 0) {
+        errorMsg = 'Cannot connect to backend server. Please ensure the backend is running on port 3000.';
+      } else if (error.error && error.error.error) {
+        errorMsg = error.error.error;
+      } else if (error.message) {
+        errorMsg = error.message;
+      }
+      
+      alert(errorMsg);
     })
   }
 }
