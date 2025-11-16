@@ -21,10 +21,17 @@ export class AddNewStudentComponent implements OnInit {
       return;
     }
 
+    // Validate age is a number
+    const age = parseInt(value.age, 10);
+    if (isNaN(age) || age <= 0) {
+      alert('Please enter a valid age');
+      return;
+    }
+
     const student = {
       id : value.id,
       name : value.name,
-      age : value.age,
+      age : age,
       hometown : value.hometown
     }
 

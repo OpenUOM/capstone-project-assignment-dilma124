@@ -36,11 +36,28 @@ export class EditStudentComponent implements OnInit {
   }
 
   editStudent(values){
+    // Validate inputs
+    const name = values.name || this.studentData.name;
+    const age = values.age || this.studentData.age;
+    const hometown = values.hometown || this.studentData.hometown;
+
+    if (!name || !age || !hometown) {
+      alert('Please fill in all fields: Name, Age, and Hometown');
+      return;
+    }
+
+    // Validate age is a number
+    const ageNum = parseInt(age, 10);
+    if (isNaN(ageNum) || ageNum <= 0) {
+      alert('Please enter a valid age');
+      return;
+    }
+
     const updatedStudent = {
       id: this.studentId,
-      name: values.name || this.studentData.name,
-      age: values.age || this.studentData.age,
-      hometown: values.hometown || this.studentData.hometown
+      name: name,
+      age: ageNum,
+      hometown: hometown
     };
 
     console.log('Sending updated student data to backend:', updatedStudent);
