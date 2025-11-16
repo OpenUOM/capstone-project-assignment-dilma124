@@ -15,20 +15,25 @@ export class AddNewStudentComponent implements OnInit {
   }
 
   createStudent(value){
+    // Validate inputs
+    if (!value.id || !value.name || !value.age || !value.hometown) {
+      alert('Please fill in all fields: ID, Name, Age, and Hometown');
+      return;
+    }
 
     const student = {
       id : value.id,
       name : value.name,
       age : value.age,
-      hometown : value.Hometown
+      hometown : value.hometown
     }
 
-
     this.service.addStudent(student).subscribe((response)=>{
-      this.router.navigate(['student'])
+      console.log('Student added successfully', response);
+      this.router.navigate(['student']);
     },(error)=>{
-      console.log('ERROR - ', error)
+      console.log('ERROR adding student - ', error);
+      alert('Error adding student. Please check the console.');
     })
   }
-
 }

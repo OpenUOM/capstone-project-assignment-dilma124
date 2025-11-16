@@ -15,19 +15,31 @@ export class AddNewTeacherComponent implements OnInit {
   }
 
   createTeacher(value){
+    // Validate inputs
+    if (!value.id || !value.name || !value.age) {
+      alert('Please fill in all fields: ID, Name, and Age');
+      return;
+    }
+
+    // Validate age is a number
+    const age = parseInt(value.age, 10);
+    if (isNaN(age) || age <= 0) {
+      alert('Please enter a valid age');
+      return;
+    }
 
     const teacher = {
       id : value.id,
       name : value.name,
-      age : value.age
+      age : age
     }
 
-
     this.service.addTeacher(teacher).subscribe((response)=>{
-      this.router.navigate([''])
+      console.log('Teacher added successfully', response);
+      this.router.navigate(['teacher']);
     },(error)=>{
-      console.log('ERROR - ', error)
+      console.log('ERROR adding teacher - ', error)
+      alert('Error adding teacher. Please check the console.');
     })
   }
-
 }

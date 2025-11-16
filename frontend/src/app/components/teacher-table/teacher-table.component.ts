@@ -12,42 +12,54 @@ export class TeacherTableComponent implements OnInit {
   faTrash = faTrash;
   faPlus = faPlus;
   faPenSquare = faPenSquare;
-  teacherData: any;
+  teacherData: any = [];
   selected: any;
 
   constructor(private service: AppServiceService, private router: Router) { }
 
   ngOnInit(): void {
-    this.getTeacherData();
+    this.initializeDB();
   }
 
   addNewTeacher() {
-    this.router.navigate(['addTeacher'])
+    this.router.navigate(['addTeacher']);
   }
 
   editTeacher(id) {
+    if (!id) {
+      console.error('Teacher ID is missing');
+      return;
+    }
     const navigationExtras: NavigationExtras = {
       state: {
         id: id
       }
     };
-    this.router.navigate(['editTeacher'], navigationExtras)
+    this.router.navigate(['editTeacher'], navigationExtras);
   }
 
   initializeDB(){
     this.service.initializeDB().subscribe((response) => {
-      console.log('DB is Initialized')
+      console.log('DB initialized');
+      this.getTeacherData();
     }, (error) => {
-      console.log('ERROR - ', error)
+      console.log('ERROR initializing DB - ', error);
+      this.getTeacherData();
     })
   }
 
   getTeacherData() {
     this.selected = 'Teachers';
     this.service.getTeacherData().subscribe((response) => {
-      this.teacherData = Object.keys(response).map((key) => [response[key]]);
+      if (response && Object.keys(response).length > 0) {
+        this.teacherData = Object.keys(response).map((key) => [response[key]]);
+      } else {
+        this.teacherData = [];
+      }
+      console.log('Teacher data loaded:', this.teacherData);
     }, (error) => {
-      console.log('ERROR - ', error)
+      console.log('ERROR loading teachers - ', error);
+      this.teacherData = [];
     })
   }
 
@@ -56,7 +68,7 @@ export class TeacherTableComponent implements OnInit {
     this.service.getStudentData().subscribe((response) => {
       this.teacherData = response;
     }, (error) => {
-      console.log('ERROR - ', error)
+      console.log('ERROR loading students - ', error);
     })
   }
 
@@ -65,9 +77,9 @@ export class TeacherTableComponent implements OnInit {
     if (value.length <= 0) {
       this.getTeacherData();
     } else {
-      let b = this.teacherData.filter((teacher) => {
-        if (teacher[0].name.toLowerCase().indexOf(value) > -1) {
-          foundItems.push(teacher)
+      this.teacherData.filter((teacher) => {
+        if (teacher[0].name.toLowerCase().indexOf(value.toLowerCase()) > -1) {
+          foundItems.push(teacher);
         }
       });
       this.teacherData = foundItems;
@@ -75,11 +87,25 @@ export class TeacherTableComponent implements OnInit {
   }
 
   deleteTeacher(itemid) {
-    const test = {
-      id: itemid
+    if (!itemid) {
+      console.error('Teacher ID is missing for delete');
+      return;
     }
-    this.service.deleteTeacher(test).subscribe((response) => {
-      this.getTeacherData()
+    
+    if (!confirm('Are you sure you want to delete this teacher?')) {
+      return;
+    }
+
+    const deletePayload = {
+      id: itemid
+    };
+    
+    this.service.deleteTeacher(deletePayload).subscribe((response) => {
+      console.log('Teacher deleted successfully');
+      this.getTeacherData();
+    }, (error) => {
+      console.log('ERROR deleting teacher - ', error);
+      alert('Error deleting teacher');
     })
   }
 }
