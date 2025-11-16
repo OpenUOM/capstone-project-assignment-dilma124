@@ -6,6 +6,7 @@ import { EditStudentComponent } from './components/edit-student/edit-student.com
 import { EditTeacherComponent } from './components/edit-teacher/edit-teacher.component';
 import { StudentTableComponent } from './components/student-table/student-table.component';
 import { TeacherTableComponent } from './components/teacher-table/teacher-table.component';
+import { DbInitializeComponent } from './components/db-initialize/db-initialize.component';
 
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: 'addTeacher', component: AddNewTeacherComponent },
   { path: 'addStudent', component: AddNewStudentComponent },
   { path: 'editStudent', component: EditStudentComponent },
-  { path: 'editTeacher', component: EditTeacherComponent }
+  { path: 'editTeacher', component: EditTeacherComponent },
+  { path: 'dbinitialize', component: DbInitializeComponent }
 ];
 
 @NgModule({
