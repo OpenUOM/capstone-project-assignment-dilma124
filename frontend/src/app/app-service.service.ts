@@ -10,10 +10,10 @@ export class AppServiceService {
   readonly ROOT_URL: string;
 
   constructor(private http: HttpClient) {
-    // In development (ng serve), proxy will route /test to localhost:3000 and /api to localhost:8080
+    // In development (ng serve), proxy will route /api to localhost:8080
     // In production (ng build), should use actual backend URL
     if(environment.production === false){
-      this.ROOT_URL = 'test'; // Routes through proxy to localhost:3000
+      this.ROOT_URL = 'api'; // Routes through proxy to localhost:8080
     }else{
       this.ROOT_URL = 'api'; // Routes through proxy to localhost:8080
     }

@@ -1,12 +1,12 @@
 exports.up = function (knex) {
     return knex.schema
       .createTable("teacher", function (table) {
-        table.increments("id").notNullable().primary();
+        table.string("id", 255).notNullable().primary();
         table.string("name", 255);
         table.int("age");
       })
       .createTable("student", function (table) {
-        table.increments("id").notNullable().primary();
+        table.string("id", 255).notNullable().primary();
         table.string("name", 255);
         table.int("age");
         table.string("hometown", 255);
