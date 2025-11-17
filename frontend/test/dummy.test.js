@@ -1,9 +1,8 @@
 import { Selector } from 'testcafe';
 process.env.NODE_ENV = "test";
 
-fixture`Comprehensive Application Functionality Test`
-    .page`http://localhost:4200/`
-    .requestTimeout(15000);
+fixture('Comprehensive Application Functionality Test')
+    .page('http://localhost:4200/');
 
 test('Test 1: Application loads and displays teacher page', async t => {
     // Initialize database
