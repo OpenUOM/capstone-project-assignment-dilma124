@@ -23,13 +23,39 @@ const initializeDatabase = async () => {
     return testBase.resetDatabase(knex_db);
 }
 
+function normalizeRows(result) {
+    let rows = [];
+    if (!result) {
+        rows = [];
+    } else if (Array.isArray(result)) {
+        // knex.raw can return rows directly or as [rows]
+        if (result.length === 1 && Array.isArray(result[0])) {
+            rows = result[0];
+        } else {
+            rows = result;
+        }
+    } else if (result && result.rows) {
+        rows = result.rows;
+    } else {
+        rows = result;
+    }
+
+    return rows.map(r => {
+        const out = Object.assign({}, r);
+        if (typeof out.id === 'string' && /^\d+$/.test(out.id)) {
+            out.id = Number(out.id);
+        }
+        return out;
+    });
+}
+
 const readTeachers = async () => {
     const sql = `SELECT * FROM teacher`
     return new Promise((resolve, reject) => {
         knex_db
             .raw(sql)
             .then((result) => {
-                resolve(result);
+                resolve(normalizeRows(result));
             })
             .catch((error) => {
                 reject(error);
@@ -43,7 +69,7 @@ const readTeacherInfo = async (id) => {
         knex_db
             .raw(sql, [id])
             .then((result) => {
-                resolve(result);
+                resolve(normalizeRows(result));
             })
             .catch((error) => {
                 reject(error);
@@ -99,7 +125,7 @@ const readStudents = async () => {
         knex_db
             .raw(sql)
             .then((result) => {
-                resolve(result);
+                resolve(normalizeRows(result));
             })
             .catch((error) => {
                 reject(error);
@@ -113,7 +139,7 @@ const readStudentInfo = async (id) => {
         knex_db
             .raw(sql, [id])
             .then((result) => {
-                resolve(result);
+                resolve(normalizeRows(result));
             })
             .catch((error) => {
                 reject(error);
